@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <svg width="800" height="400"></svg>
+
+  <script>
+    // Données pour le nuage de points
+    const data = [
+      { x: 10, y: 20 },
+      { x: 30, y: 40 },
+      { x: 50, y: 60 },
+      { x: 70, y: 80 },
+      { x: 90, y: 100 }
+    ];
+
+    // Dimensions du SVG
+    const svgWidth = 800;
+    const svgHeight = 400;
+
+    // Définition des marges et des dimensions du graphique
+    const margin = { top: 20, right: 30, bottom: 30, left: 60 };
+    const width = svgWidth - margin.left - margin.right;
+    const height = svgHeight - margin.top - margin.bottom;
+
+    // Création de l'élément SVG pour le graphique
+    const svg = d3.select("svg")
+      .attr("width", svgWidth)
+      .attr("height", svgHeight)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Echelles pour les axes x et y
+    const x = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.x)])
+      .range([0, width]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.y)])
+      .range([height, 0]);
+
+    // Ajout des axes x et y
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Dessiner un demi-cercle autour de l'axe des y
+    const yAxisCircle = svg.append("path")
+      .attr("transform", `translate(0, ${height})`)
+      .attr("d", d3.arc()({
+        innerRadius: 0,
+        outerRadius: height,
+        startAngle: Math.PI / 2,
+        endAngle: -Math.PI / 2,
+      }))
+      .attr("fill", "none")
+      .attr("stroke", "black");
+  </script>
+</body>
+</html>
+
+

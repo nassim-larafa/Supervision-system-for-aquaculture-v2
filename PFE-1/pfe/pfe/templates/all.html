@@ -1,0 +1,376 @@
+{% extends 'index.html' %} 
+{% block content %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  body.bg-img {
+    background-image: url("{%static 'index/images/slide1.jpg'%}");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .sidebar-wrapper::-webkit-scrollbar {
+              width: 6px;
+              background-color: #131407;
+            }
+            
+            .sidebar-wrapper::-webkit-scrollbar-thumb {
+              background-color: darkgreen;
+              border-radius: 5px;
+            }
+            .visualize-btn {
+                    padding: 5px 5px;
+                    border: none;
+                    background-color: transparent;
+                    color: #5BB12F;
+                    font-size: 10px;
+                    cursor: pointer;
+                  }
+                
+                  .visualize-btn:hover {
+                    color: #fff;
+                    background-color: #3F6D22;
+                    border-color: #3F6D22;
+                  }
+                
+                  .visualize-btn i {
+                    font-size: 11px;
+                  }
+
+                  .edit-btn {
+                    padding: 5px 5px;
+                    border: none;
+                    background-color: transparent;
+                    color: #8c8c8c;
+                    font-size: 10px;
+                    cursor: pointer;
+                  }
+                
+                  .edit-btn:hover {
+                    color: #fff;
+                    background-color: #8c8c8c;
+                    border-color: #8c8c8c;
+                  }
+                
+                  .edit-btn i {
+                    font-size: 11px;
+                  }
+
+                  .delete-btn {
+                    padding: 5px 5px;
+                    border: none;
+                    background-color: transparent;
+                    color: #8c8c8c;
+                    font-size: 10px;
+                    cursor: pointer;
+                  }
+                
+                  .delete-btn:hover {
+                    color: #fff;
+                    background-color: #8c8c8c;
+                    border-color: #8c8c8c;
+                  }
+                
+                  .delete-btn i {
+                    font-size: 11px;
+                  }
+
+                  .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: -10px;
+      }
+      
+      .pagination {
+        list-style: none;
+        display: flex;
+        align-items: center;
+      }
+      
+      .page-item {
+        margin: 0 5px;
+      }
+      
+    .page-link {
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease-in-out;
+      }
+      
+    .page-link:hover {
+        background-color: #ddd;
+      }
+      
+      .active .page-link {
+        background-color: #5BB12F;
+        color: #fff;
+        border: 1px solid #5BB12F;
+      }
+      
+      .page-link i {
+        font-size: 16px;
+      }
+      .project-card {
+                            background-color: #E6E5E5;
+                            border-radius: 12px;
+                            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.16);
+                            padding: 15px ;
+                            width: 290px;
+                            height:100px;
+                            
+                            margin: 10px 5px;
+                            
+                            text-align: center;
+                            transition: all 0.3s ease-in-out;
+                          }
+                        
+                          .project-card:hover {
+                            transform: translateY(-5px);
+                          } 
+</style>
+
+<body class="bg-img">
+
+
+    <div style="margin: 40px 100px;">
+        <div class="row">
+
+          <div class="col-3" >
+ 
+            <div class="sidebar-wrapper" style="width:340px; height: 950px; overflow-y: auto;">
+          
+              <div class="sidebar" style="background-color: #e6e5e5; width:320px; border-radius: 5px; padding: 20px; margin-bottom: 20px;  height: 950px; ">
+               
+                <div style="display: flex; align-items: center; margin-bottom: 20px;  margin-left: 30px;">
+                 
+                  <a class="nav-link active" aria-current="page" href="{% url 'index' %}">
+                    <i class="fa fa-fw fa-home" style="font-size: 24px; color: #5b3f43; margin-right: 10px;"></i>
+                </a>
+                <h5 class="sidebar-heading" style="display: flex; align-items: center; font-size: 20px; font-weight: bold; margin-right: 10px; margin-top: 10px;  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; text-transform: uppercase; letter-spacing: 2px;">
+                  Projects List
+             </h5>
+                
+              </div>
+              
+                
+                <button class="btn btn-dark shadow-none add-project-btn" style="width: 100%; margin-bottom: 20px; border-radius: 20px; background-color:darkgreen; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;" onclick="location.href='{% url 'add_project' supervisor.pseudo %}'"><i class="fa-solid fa-plus"></i> Add Project</button>
+  
+                <ul class="list-unstyled mt-3">
+                  {% for proj in projects %}
+                  <div class="project-card" style="width: 270px;">
+                    <li class="project-item" style="display: flex; align-items: left; justify-content: space-between; border-bottom: 0px solid #D1485F; padding: 10px 10px; margin:8px -22px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                      <div class="project-info" style="display: flex; flex-direction: column;  height: 40px; /* set a fixed height */
+                      justify-content: space-between;">
+                      <h6 class="project-name" style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">Project Name: <span style="color: #6b2737">{{ proj.nomp }}</span></h6>
+    
+                        <p class="project-id" style="font-size: 14px; color: #8c8c8c; margin-left:-50px;">Project ID: {{ proj.polygon_id }}</p>
+                       
+                      </div>
+                      <div class="project-actions">
+                        
+                        <button class="btn btn-outline-success visualize-btn"  onclick="location.href='{% url 'final' proj.supervisorp.pseudo proj.polygon_id %}'"><i class="fa-regular fa-eye"></i></button>
+                        <button class="btn btn-outline-primary edit-btn" ><i class="fa-solid fa-pencil"></i></button> 
+                        <button class="btn btn-outline-danger delete-btn"><i class="fa-solid fa-trash-alt"></i></button>
+                      </div>
+                  </li>
+                  </div>
+                  {% endfor %}
+                </ul>
+          </div>
+        </div>
+      </div>
+              
+
+                <div class="col-3"  style="background-color: #f7f7f7;width: 895px; height: 950px; border-radius: 5px; margin-left:50px; ">
+                    <form method="POST">
+                    {% csrf_token %} 
+                       
+                        <h4 style="  margin-bottom:20px; margin-top: 10px;"> <strong style=" font-size: 20px;  margin-bottom: 20px; color:darkgreen; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; font-size: 22px;   text-transform: uppercase; letter-spacing: 2px;">Last Node Added Of Project: </strong>{{ project.nomp }} {{ lastd.node }} </h4>
+            
+                        
+<div class="row">
+  
+
+                        <div class="col-3" style=" border: 1px solid #d5d4dd ; width: 250px; height: 250px; margin-left: 33px; border-radius: 10px; margin-top: 8px; margin-right: 60px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;" >
+                    
+                          {% if project %}
+                          <h5 style="margin-bottom: 1px; "><a style="color: rgb(79, 78, 78);" href="{% url 'update_distance' project.polygon_id %}" >Fish Finder</a></h5>
+                          {% endif %} <hr>
+                          {% comment %} {% for ldn0 in ldn %} {% endcomment %}
+                          <div id="fish-info" >
+                                    <p><strong>Distance:</strong> {{ lastd.distance }}Cm</p>
+                                  <!--<p><strong>Humidity:</strong> {{ lastd.humidity }}%</p>
+                                    <p><strong>Wind Speed:</strong> {{ lastd.wind }} km/h</p>
+                                    <p><strong>Rain Volume:</strong> {{ lastd.rain }} mm</p>-->
+                                    {% comment %} <p><strong style='color:#A26A25;'>related node:</strong> {{ ldn0.node }} </p>
+                                    <button style="margin-bottom: 3px; font-family:subset;font-weight:bold; background-color:#2F3922;" type="button" class="btn btn-dark shadow-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                      Node Information
+                                    </button> {% endcomment %}
+                                   
+                         
+                          </div>  
+                          <p><strong style='color:#A26A25;'>related node:</strong> {{ lastd.node }} </p> 
+                          <button style="margin-top: -60px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;font-weight:bold; background-color:#082631; border-radius: 20px; margin-left: 30px;" type="button" class="btn btn-dark shadow-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Node Information
+                          </button>
+                          <button  class="btn btn-outline-dark" name="b_add_N" style="  font-size: 10px; margin-top: 40px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;font-weight:bold; border-radius: 20px; margin-left: 35px;"  onclick="location.href='{% url 'addnode' project.supervisorp.pseudo project.polygon_id %}'"> Add Another Node</button>
+                          {% comment %} {% endfor %}   {% endcomment %}
+                        </div>
+
+                  <!--     <div class="col-3" style=" border: 1px solid #d5d4dd ; background-color: #E9D8C7;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; width: 220px; height: 150px; margin-left: 33px; border-radius: 10px; margin-top: 8px; margin-right: 60px;" >
+                          <h5>Prediction result</h5> <hr>
+                        
+                          <div>
+                        
+                            {% comment %} {% for ldn0 in ldn %} {% endcomment %}
+                        
+                            <div id="fwi">
+                              <p><strong>FWI :</strong>{{ lastd.node.FWI }}</p>
+                              </div>
+                              
+                              <div id="status">
+                                {% if lastd.node.status == 'DOWN' %}
+                                    <p><strong>Status: </strong><span style="color:green; font-weight:bold">{{ lastd.node.status }}</span></p>
+                                {% elif lastd.node.status == 'MODERATE' %}
+                                    <p><strong>Status: </strong><span style="color:blue; font-weight:bold">{{ lastd.node.status }}</span></p>
+                                {% elif lastd.node.status == 'HIGH' %}
+                                    <p><strong>Status: </strong><span style="color:yellow; font-weight:bold">{{ lastd.node.status }}</span></p>
+                                {% elif lastd.node.status == 'VERY HIGH' %}
+                                    <p><strong>Status: </strong><span style="color:orange; font-weight:bold">{{ lastd.node.status }}</span></p>
+                                {% elif lastd.node.status == 'EXTREME' %}
+                                    <p><strong>Status: </strong><span style="color:red; font-weight:bold">{{ lastd.node.status }}</span></p>
+                                {% elif lastd.node.status == 'UNKNOWN' %}
+                                    <p><strong>Status: </strong><span style="color:black; font-weight:bold">{{ lastd.node.status }}</span></p>            
+                                {% endif %}
+                                </div>
+                        
+                                {% comment %} {% endfor %} {% endcomment %}
+                          </div>
+                        
+                          <button  class="btn btn-outline-dark" name="b_add_N" style="  font-size: 10px; margin-top: 40px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;font-weight:bold; border-radius: 20px; margin-left: 35px;"  onclick="location.href='{% url 'addnode' project.supervisorp.pseudo project.polygon_id %}'"> Add Another Node</button>
+                        
+                        </div>
+--> 
+                        <div class="col-3" >
+                          <canvas id="myChart"></canvas>
+                          
+
+                        </div>
+
+</div>
+
+
+
+                         
+                           
+                        <div class='col-6 rounded ' id="map" style="width: 890px;height: 565px; box-sizing:border-box; margin-top: -5px; margin-top: 10px; border-radius: 50px; margin-left:-10px; ">
+                          <div class="leaflet-control"></div>
+                        </div>
+              
+                        <label for="geomp">Geometry:</label>
+                        <input type="text" id="geomp" name="geomp" value="{{ project.geomp }}" readonly><br><br>
+                         
+                        <br> 
+                         {% for d in node %}
+                        <label for="lat">Latitude:</label>
+                        <input type="text" id="latitude" name="latitude" value="{{ d.latitude }}" readonly><br>
+
+                        <label for="lng">Longitude:</label>
+                        <input type="text" id="longitude" name="longitude" value="{{ d.longitude }}" readonly><br><br>
+                        {%endfor%} 
+
+
+                    </form>
+
+
+
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog ">
+                      <div class="modal-content">
+                        <div class="modal-header " style="background-color:#6B2737; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                          
+                          <h5 class="modal-title" id="exampleModalLabel"  style="color:white; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Node Information</h5>
+                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                          <p style='color:#6B2737;'><strong style='color:black;'>Node Name :</strong>   {{ lastd.node.nom }}</p>
+                          <p style='color:#6B2737;'><strong style='color:black;'>Reference: </strong>{{ lastd.node.reference }}</p>
+                          <p style='color:#6B2737;'><strong style='color:black;'>Position: </strong>{{ lastd.node.longitude }},{{ lastd.node.latitude }}</p>
+                          <p style='color:#6B2737;'><strong style='color:black;'>Sensors: </strong>{{ lastd.node.Sensors }}</p>
+                          <p style='color:#6B2737;'><strong style='color:black;'>Duty Cycle: </strong>{{ 'Every 1 Min' }}</p>
+                          <div id="rssi">
+                          <p style='color:#6B2737;'><strong style='color:black;'>RSSI: </strong> {{ lastd.node.RSSI }}</p>
+                          </div>
+                          <p style='color:#6B2737;'><strong style='color:black;'>Battery level: </strong>{{ lastd.node.Battery_value }}</p>
+                         
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal" style="border-radius: 20px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Close</button>
+                          
+                           </div>
+                      </div>
+                    </div>
+                  </div>
+
+        
+                  <script src="https://cdn.jsdelivr.net/npm/leaflet.marker.bouncing/dist/leaflet.marker.bouncing.min.js"></script>
+                  <script>
+                      var geojson_str = "{{ project.geomp.json|escapejs }}";
+                      var geojson = JSON.parse(geojson_str);
+                      var map = L.map('map').setView([{{ project.geomp.centroid.y }}, {{ project.geomp.centroid.x }}], 11.5);
+                  
+                      L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                          attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                      }).addTo(map);
+                  
+                      L.geoJSON(geojson).addTo(map);
+                  
+                      {% for cage in cages %}
+                          L.circle([{{ cage.latitude_centre }}, {{ cage.longitude_centre }}], {
+                              radius: {{ cage.diametre }}/2,
+                              fillColor: 'red',
+                              fillOpacity: 0.5,
+                              color: 'red',
+                              weight: 1
+                          }).addTo(map).bindPopup("<b>Nom de la cage:</b> {{ cage.nom }} <br> <b>Description:</b> {{ cage.description }} <br> <b>Diamètre:</b> {{ cage.diametre }}");
+                      {% endfor %}
+                  
+                      {% for d in ldn %}
+                          var coords = JSON.parse(geojson_str).coordinates;
+                          var first_coords = coords[0][0];
+                      
+                          var polygonOne = { 
+                              "type": "Polygon",
+                              "coordinates": [
+                                  coords[0][{{ d.node.node_range}}-1]
+                              ]
+                          };
+                          var color="blue";  // Vous pouvez modifier la couleur en fonction de l'état du nœud ici
+                  
+                          var polygonLayer = L.geoJSON(polygonOne, { style: { color: color, fillOpacity: 0.03 } }).addTo(map);
+                          polygonLayer.setStyle({ color: color });
+                          polygonLayer.bindTooltip("Polygon " +  {{d.node.node_range}} +" Of Project: "+"{{d.node.polyg.nomp}}");
+                  
+                          var marker = L.marker([{{ d.node.position.y }}, {{ d.node.position.x }}]).addTo(map);   
+                      {% endfor %}
+                  
+                      $(document).ready(function() {
+                          setInterval(function() {
+                              // Ici, vous pouvez ajouter une logique pour la mise à jour d'autres informations si nécessaire
+                          }, 2000); // Rafraîchir toutes les 2 secondes
+                      });
+                  </script>
+                  
+    </body>
+
+</html>
+{% endblock %}

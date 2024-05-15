@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<body>
+    <p>Dear {{ superviseur }},</p>
+    <p>Thank you for creating an account on our platform. Here are your client details:</p>
+    <ul>
+        <li>Name: {{ client_name }}</li>
+        <li>Data: 
+            <ul>
+                <li>Email: {{email}}</li>
+                <li>Phone: {{phone}}</li>
+                <li>Mot De Passe: {{mdp}}</li>
+            </ul>
+
+        </li>
+    </ul>
+    <p>Feel free to contact us if you have any questions.</p>
+    <p>Best regards,</p>
+   
+</body>
+</html>
+{% endblock %}

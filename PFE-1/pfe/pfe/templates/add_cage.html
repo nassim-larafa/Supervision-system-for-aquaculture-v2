@@ -1,0 +1,389 @@
+{% extends 'index.html' %} 
+{% block content %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+      body.bg-img {
+        background-image: url("{%static 'index/images/slide1.jpg'%}");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .sidebar-wrapper::-webkit-scrollbar {
+                  width: 6px;
+                  background-color: #fff;
+                }
+                
+                .sidebar-wrapper::-webkit-scrollbar-thumb {
+                  background-color: #142a72;
+                  border-radius: 5px;
+                }
+                .visualize-btn {
+                        padding: 5px 5px;
+                        border: none;
+                        background-color: transparent;
+                        color: #142a72;
+                        font-size: 10px;
+                        cursor: pointer;
+                      }
+                    
+                      .visualize-btn:hover {
+                        color: #fff;
+                        background-color: #13c5dd;
+                        border-color: #13c5dd;
+                      }
+                    
+                      .visualize-btn i {
+                        font-size: 11px;
+                      }
+
+                      .edit-btn {
+                        padding: 5px 5px;
+                        border: none;
+                        background-color: transparent;
+                        color: #8c8c8c;
+                        font-size: 10px;
+                        cursor: pointer;
+                      }
+                    
+                      .edit-btn:hover {
+                        color: #fff;
+                        background-color: #8c8c8c;
+                        border-color: #8c8c8c;
+                      }
+                    
+                      .edit-btn i {
+                        font-size: 11px;
+                      }
+
+                      .delete-btn {
+                        padding: 5px 5px;
+                        border: none;
+                        background-color: transparent;
+                        color: #8c8c8c;
+                        font-size: 10px;
+                        cursor: pointer;
+                      }
+                    
+                      .delete-btn:hover {
+                        color: #fff;
+                        background-color: #8c8c8c;
+                        border-color: #8c8c8c;
+                      }
+                    
+                      .delete-btn i {
+                        font-size: 11px;
+                      }
+
+                      .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: -10px;
+            margin-left: 300px;
+          }
+          
+          .pagination {
+            list-style: none;
+            display: flex;
+            align-items: center;
+          }
+          
+          .page-item {
+            margin: 0 5px;
+          }
+          
+        .page-link {
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease-in-out;
+          }
+          
+        .page-link:hover {
+            background-color: #ddd;
+          }
+          
+          .active .page-link {
+            background-color: #13c5dd;
+            color: #fff;
+            border: 1px solid #13c5dd;
+          }
+          
+          .page-link i {
+            font-size: 16px;
+          }
+          .project-card {
+                                background-color: #E6E5E5;
+                                border-radius: 12px;
+                                box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.16);
+                                padding: 15px ;
+                                width: 290px;
+                                height:100px;
+                                
+                                margin: 10px 5px;
+                                
+                                text-align: center;
+                                transition: all 0.3s ease-in-out;
+                              }
+                            
+                              .project-card:hover {
+                                transform: translateY(-5px);
+                              } 
+    </style>
+
+    <body  class="bg-img">
+
+
+        <div style="margin: 40px 100px;">
+            <div class="row">
+
+              <div class="col-3" >
+     
+                <div class="sidebar-wrapper" style="width:340px; height: 800px; overflow-y: auto;">
+              
+                  <div class="sidebar" style="background-color: #e6e5e5; width:320px; border-radius: 5px; padding: 20px; margin-bottom: 20px;  height: 800px; ">
+                   
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;  margin-left: 30px;">
+                     
+                      <a class="nav-link active" aria-current="page" href="{% url 'index' %}">
+                        <i class="fa fa-fw fa-home" style="font-size: 24px; color: #13c5dd; margin-right: 10px;"></i>
+                    </a>
+                    <h5 class="sidebar-heading" style="display: flex; color:#142a72;align-items: center; font-size: 20px; font-weight: bold; margin-right: 10px; margin-top: 10px;  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; text-transform: uppercase; letter-spacing: 2px;">
+                      Projects List
+                 </h5>
+                    
+                  </div>
+                  
+                    
+                  <button class="btn btn-dark shadow-none add-project-btn" style="width: 100%; margin-bottom: 20px; border-radius: 15px; background-color:#13c5dd; color:#142a72;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;" onclick="location.href='{% url 'add_project' supervisor.pseudo %}'"><i class="fa-solid fa-plus"></i> Add Project</button>
+                    <ul class="list-unstyled mt-3">
+                      {% for proj in projects %}
+                      <div class="project-card" style="width: 270px;">
+                        <li class="project-item" style="display: flex; align-items: left; justify-content: space-between; border-bottom: 0px solid #5ab02e; padding: 10px 10px; margin:8px -22px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                          <div class="project-info" style="display: flex; flex-direction: column;  height: 40px; /* set a fixed height */
+                          justify-content: space-between;">
+                          <h6 class="project-name" style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">Project Name: <span style="color: #5ab02e">{{ proj.nomp }}</span></h6>
+        
+                            <p class="project-id" style="font-size: 14px; color: #8c8c8c; margin-left:-50px;">Project ID: {{ proj.polygon_id }}</p>
+                           
+                          </div>
+                          <div class="project-actions">
+                            {% if proj.polygon_id != project.polygon_id %}
+                            <button class="btn btn-outline-success visualize-btn"  onclick="location.href='{% url 'final' proj.supervisorp.pseudo proj.polygon_id %}'"><i class="fa-regular fa-eye"></i></button>
+                              {%endif%} 
+                            <button class="btn btn-outline-primary edit-btn" ><i class="fa-solid fa-pencil"></i></button> 
+                            <button class="btn btn-outline-danger delete-btn"><i class="fa-solid fa-trash-alt"></i></button>
+                          </div>
+                      </li>
+                      </div>
+                      {% endfor %}
+                    </ul>
+              </div>
+            </div>
+          </div>
+
+                <div class="col-3"  style="background-color: #f7f7f7;width: 895px; height: 800px; border-radius: 5px; margin-left:50px;">
+                    <form method="POST">
+                    {% csrf_token %} 
+
+                        <h4 style="  margin-bottom:20px; margin-top: 10px;color:#5ab02e"> <strong style=" font-size: 20px;  margin-bottom: 20px; color:#142a72; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; font-size: 22px;   text-transform: uppercase; letter-spacing: 2px;">Add Cage To Your Project: </strong>{{ project.nomp }}</h4>
+            
+
+                        <div class="row mb-3" style="margin-left: 10px;">
+                            <div class="col-md-3">
+                              <label for="nom" style="margin-right: 5px; color:#142a72; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Cage Name:</label>
+                              <input type="text" id="nom" name="nom" style="margin-right: 20px; background-color: #FAF8FF;" placeholder="Cage Name" />
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label for="diameter" style="margin-right: 5px;color:#142a72; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Cage Diameter:</label>
+                                <input type="text" id="diameter" name="diameter" style="margin-right: 20px; background-color: #FAF8FF;" placeholder="Cage Diameter" /> 
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label for="description" style="margin-right: 5px; color:#142a72; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Cage Description:</label>
+                                <input type="text" id="description" name="description" style="margin-right: 20px; background-color: #FAF8FF;" placeholder="Cage Description" />
+                              </div>
+                            
+                            <div class="col-md-3">
+                              <label for="range" style="margin-right: 5px; color:#142a72; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Cage order:</label>
+                              <input type="text" id="range" name="range" style="background-color: #FAF8FF;" placeholder="Enter Cage range" />
+                            </div>
+                          </div>
+                          
+                          <div class="row" style="margin-left: 10px;">
+                            
+
+                            <div class="col-md-3"><br/>
+                                
+                                <select name="polyg" style="margin-right: 50px; background-color:#FAF8FF; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                                    {% for proj in projects %}
+                                    <option value="{{ proj.polygon_id }}">Project ID: {{ proj.polygon_id }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3"><br/>
+
+                                <nav class="pagination-container" >
+                                  <ul class="pagination">
+                                    <li class="page-item">
+                                      <a class="page-link" href='{% url 'add_client' supervisor.pseudo project.polygon_id %}' aria-label="Previous" >
+                                        <i class="fas fa-chevron-left"></i>
+                                      </a>
+                                    </li>
+                                    <li class="page-item ">
+                                      <a class="page-link" href='{% url 'add_project' supervisor.pseudo  %}'>1</a>
+                                    </li>
+                                    <li class="page-item ">
+                                      <a class="page-link" href='{% url 'add_client' supervisor.pseudo project.polygon_id %}'>2</a>
+                                    </li>
+                                    <li class="page-item ">
+                                      <a class="page-link" href='{% url 'add_polygones' supervisor.pseudo project.polygon_id %}'>3</a>
+                                    </li>
+                                    <li class="page-item active">
+                                      <a class="page-link" href={% url 'addcage' supervisor.pseudo project.polygon_id %}>4</a>
+                                    </li>
+                                    <li class="page-item ">
+                                        <a class="page-link" href='{% url 'addnode' supervisor.pseudo project.polygon_id %}'>5</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <button class="page-link" type="submit" value="save" >
+                                          <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                        
+                                      </li>
+                                    
+                                  </ul>
+                                </nav> 
+                                   
+                            </div>
+                        </div>
+                        
+                        <div class='col-6 rounded ' id="map" style="width: 890px;height: 565px; box-sizing:border-box; margin-top: -5px;  border-radius: 50px; margin-left:-10px; ">
+                          <div class="leaflet-control"></div>
+                        </div>
+             
+                      
+
+                        <label for="lat" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Latitude:</label>
+                        <input type="text" id="lat" name="latitude">
+        
+                        <label for="lng" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">Longitude:</label>
+                        <input type="text" id="lng" name="longitude" style="margin-bottom: 10px; ">
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"></script>
+
+<!-- leaflet draw plugin  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+<!-- Leaflet Draw CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+<!-- Leaflet Draw JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <!-- Leaflet Map Script -->
+    <script>
+        var geojson_str = "{{ project.geomp.json|escapejs }}";
+        var geojson = JSON.parse(geojson_str);
+    
+        var map = L.map('map').setView([{{ project.geomp.centroid.y }}, {{ project.geomp.centroid.x }}], 12.5);
+        
+        L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        }).addTo(map);
+    
+        var polygonLayer = L.geoJSON(geojson).addTo(map);
+        polygonLayer.bindTooltip("Parcelle Of Project: {{ project.nomp }}");
+    
+        // Create a feature group to store the drawn shapes
+        var drawnFeatures = new L.FeatureGroup();
+        map.addLayer(drawnFeatures);
+    
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnFeatures,
+                remove: true
+            },
+            draw: {
+                polygon: {
+                    shapeOptions: {
+                        color: 'blue'
+                    },
+                },
+                polyline: {
+                    shapeOptions: {
+                        color: 'red'
+                    },
+                },
+                rect: {
+                    shapeOptions: {
+                        color: 'green'
+                    },
+                },
+                circle: {
+                    shapeOptions: {
+                        color: 'steelblue'
+                    },
+                },
+                
+            },
+           
+        });
+        map.addControl(drawControl);
+    
+        map.on('draw:created', function (event) {
+            var layer = event.layer;
+            
+            // Si l'élément dessiné est un marqueur
+            if (layer instanceof L.Marker) {
+                var center = layer.getLatLng();
+                var diameter = parseFloat(document.getElementById('diameter').value);
+                var radius = diameter / 2;
+                
+                // Dessiner un cercle autour du marqueur avec le rayon spécifié
+                var circle = L.circle(center, {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: radius,
+                }).addTo(map);
+    
+                var circleCenter = circle.getLatLng();
+                layer.setLatLng(circleCenter);
+                layer.addTo(map);
+                
+                document.getElementById('lat').value = center.lat.toFixed(5);
+                document.getElementById('lng').value = center.lng.toFixed(5);
+                // Créer un popup avec les informations souhaitées
+                var popupContent = "<b>Centre:</b><br>Latitude: " + circleCenter.lat.toFixed(5) + "<br>Longitude: " + circleCenter.lng.toFixed(5) + 
+                                   "<br><b>Nom de la cage:</b> " + document.getElementById('nom').value + 
+                                   "<br><b>Description:</b> " + document.getElementById('description').value + 
+                                   "<br><b>Diamètre:</b> " + document.getElementById('diameter').value;
+                
+                // Lier le popup au marqueur
+                layer.bindPopup(popupContent).openPopup();
+            }
+        });
+    
+        
+    </script>   
+
+    </body>
+
+</html>
+{% endblock %}

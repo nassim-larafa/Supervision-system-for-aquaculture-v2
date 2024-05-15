@@ -1,0 +1,36 @@
+ {% extends 'index.html' %}
+ {% load static %} 
+ {% block content %}
+<body class="" >
+    <center>
+<div class="containerr" style="margin-left: 400px; margin-top: 200px; margin-bottom: 300px;">
+    <div class="row mb-8" >
+        <div class="col-sm-4 " >
+            <div class="card" style="width: 20rem; height: 20rem;border-radius:20px; margin-left: -30px;">
+                <div class="card-body">
+                  <h3 class="card-title" style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif sans-serif; font-weight: bolder; "> SUPERVISOR</h3>
+                  <img src="{%static 'users\supervisor.png'%}"  style="width: 80%;height: 60%;""/>
+                  <a class="btn btn-dark  mx-auto d-block" style=' color:rgb(23, 132, 132);border-radius:20px; font-size: 14px; background-color:
+                   #ffffff;font-weight: bolder; margin-top : 30px; font-family:Verdana, Geneva, Tahoma, sans-serif;margin-top: 20px;'
+                   href="{% url 'connectassupervisor' %}" class="btn btn-primary">connect as supervisor</a>
+                </div>
+              </div>
+        </div>
+        
+
+        <div class="col-sm-4 " >
+            <div class="card" style="width: 20rem; height: 20rem;border-radius:20px;margin-left: 30px;">
+                <div class="card-body">
+                  <h3 class="card-title" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif sans-serif; font-weight: bolder; "> CLIENT</h3>
+                  <img src="{%static 'users\client.png'%}"  style="width: 70%;height: 70%;margin-top: -24px;" />
+                   <a class="btn btn-dark  mx-auto d-block" style='color:rgb(23, 132, 132); border-radius:20px; font-size: 14px; background-color:
+                    #ffffff; font-weight: bolder; font-family:Verdana, Geneva, Tahoma, sans-serif; margin-top : 27px'
+                    href="{% url 'connectasclient' %}" class="btn btn-primary">connect as client</a>
+                </div>
+              </div>
+        </div>
+    </div>   
+</div>
+</center>
+</body>
+{% endblock %}

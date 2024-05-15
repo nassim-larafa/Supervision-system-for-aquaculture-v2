@@ -1,0 +1,327 @@
+{% extends 'index.html' %} 
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+      body.bg-img {
+        background-image: url("{%static 'index/images/slide1.jpg'%}");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .sidebar-wrapper::-webkit-scrollbar {
+                  width: 6px;
+                  background-color: #ffff;
+                }
+                
+                .sidebar-wrapper::-webkit-scrollbar-thumb {
+                  background-color: #142a72;
+                  border-radius: 5px;
+                }
+                .visualize-btn {
+                        padding: 5px 5px;
+                        border: none;
+                        background-color: transparent;
+                        color: #142a72;
+                        font-size: 10px;
+                        cursor: pointer;
+                      }
+                    
+                      .visualize-btn:hover {
+                        color: #fff;
+                        background-color: #13c5dd;
+                        border-color: #13c5dd;
+                      }
+                    
+                      .visualize-btn i {
+                        font-size: 11px;
+                      }
+
+                      .edit-btn {
+                        padding: 5px 5px;
+                        border: none;
+                        background-color: transparent;
+                        color: #8c8c8c;
+                        font-size: 10px;
+                        cursor: pointer;
+                      }
+                    
+                      .edit-btn:hover {
+                        color: #fff;
+                        background-color: #8c8c8c;
+                        border-color: #8c8c8c;
+                      }
+                    
+                      .edit-btn i {
+                        font-size: 11px;
+                      }
+
+                      .delete-btn {
+                        padding: 5px 5px;
+                        border: none;
+                        background-color: transparent;
+                        color: #8c8c8c;
+                        font-size: 10px;
+                        cursor: pointer;
+                      }
+                    
+                      .delete-btn:hover {
+                        color: #fff;
+                        background-color: #8c8c8c;
+                        border-color: #8c8c8c;
+                      }
+                    
+                      .delete-btn i {
+                        font-size: 11px;
+                      }
+
+                      .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: -10px;
+          }
+          
+          .pagination {
+            list-style: none;
+            display: flex;
+            align-items: center;
+          }
+          
+          .page-item {
+            margin: 0 5px;
+          }
+          
+        .page-link {
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease-in-out;
+          }
+          
+        .page-link:hover {
+            background-color: #ddd;
+          }
+          
+          .active .page-link {
+            background-color: #13c5dd;
+            color: #fff;
+            border: 1px solid #13c5dd;
+          }
+          
+          .page-link i {
+            font-size: 16px;
+          }
+          .project-card {
+                                background-color: #E6E5E5;
+                                border-radius: 12px;
+                                box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.16);
+                                padding: 15px ;
+                                width: 290px;
+                                height:100px;
+                                
+                                margin: 10px 5px;
+                                
+                                text-align: center;
+                                transition: all 0.3s ease-in-out;
+                              }
+                            
+                              .project-card:hover {
+                                transform: translateY(-5px);
+                              } 
+    </style>
+    <body  class="bg-img">
+        <div style="margin: 40px 100px;">
+            <div class="row">
+
+              <div class="col-3" >
+     
+                <div class="sidebar-wrapper" style="width:340px; height: 700px; overflow-y: auto;">
+              
+                  <div class="sidebar" style="background-color: #e6e5e5; width:320px; border-radius: 5px; padding: 20px; margin-bottom: 20px;  height: 700px; ">
+                   
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;  margin-left: 30px;">
+                     
+                      <a class="nav-link active" aria-current="page" href="{% url 'index' %}">
+                        <i class="fa fa-fw fa-home" style="font-size: 24px; color: #13c5dd; margin-right: 10px;"></i>
+                      </a>
+                     <h5 class="sidebar-heading" style="display: flex; align-items: center; color:#142a72;font-size: 20px; font-weight: bold; margin-right: 10px; margin-top: 10px;  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; text-transform: uppercase; letter-spacing: 2px;">
+                      Projects List
+                      </h5>
+                    
+                    </div>
+                  
+                    
+                    <button class="btn btn-dark shadow-none add-project-btn" style="width: 100%; margin-bottom: 20px; border-radius: 15px; background-color:#13c5dd; color:#142a72;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;" onclick="location.href='{% url 'add_project' supervisor.pseudo %}'"><i class="fa-solid fa-plus"></i> Add Project</button>
+      
+                    <ul class="list-unstyled mt-3">
+                      {% for proj in projects %}
+                      <div class="project-card" style="width: 270px;">
+                        <li class="project-item" style="display: flex; align-items: left; justify-content: space-between; border-bottom: 0px solid #5ab02e; padding: 10px 10px; margin:8px -22px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                          <div class="project-info" style="display: flex; flex-direction: column;  height: 40px; /* set a fixed height */
+                          justify-content: space-between;">
+                          <h6 class="project-name" style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">Project Name: <span style="color: #5ab02e">{{ proj.nomp }}</span></h6>
+        
+                            <p class="project-id" style="font-size: 14px; color: #8c8c8c; margin-left:-50px;">Project ID: {{ proj.polygon_id }}</p>
+                           
+                          </div>
+                          <div class="project-actions">
+                            {% if proj.polygon_id != project.polygon_id %}
+                            <button class="btn btn-outline-success visualize-btn"  onclick="location.href='{% url 'final' proj.supervisorp.pseudo proj.polygon_id %}'"><i class="fa-regular fa-eye"></i></button>
+                              {%endif%} 
+                            <button class="btn btn-outline-primary edit-btn" ><i class="fa-solid fa-pencil"></i></button> 
+                            <button class="btn btn-outline-danger delete-btn"><i class="fa-solid fa-trash-alt"></i></button>
+                          </div>
+                      </li>
+                      </div>
+                      {% endfor %}
+                    </ul>
+              </div>
+            </div>
+          </div>
+
+                <div class="col-3" style="background-color: #f7f7f7;width: 895px; height: 700px; border-radius: 5px; margin-left:50px;">
+
+                  <form method="POST"  style='margin: 0px 20px; margin-right:100px;' >
+                    {% csrf_token %}
+        
+                    
+                    <h4 style="  margin-bottom:20px; margin-top:10px; font-size: 20px;  margin-bottom: 20px; color:gray; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ; font-size: 22px; "> <strong style="color: #142a72; ">Draw plots project:</strong> {{project.nomp}} <strong style="color: #142a72; ">of client :</strong>{{project.clientp}}</h4>
+                    
+                    <nav class="pagination-container" >
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href='{% url 'add_client' supervisor.pseudo project.polygon_id %}' aria-label="Previous" >
+                            <i class="fas fa-chevron-left"></i>
+                          </a>
+                        </li>
+                        <li class="page-item ">
+                          <a class="page-link" href='{% url 'add_project' supervisor.pseudo  %}'>1</a>
+                        </li>
+                        <li class="page-item ">
+                          <a class="page-link" href='{% url 'add_client' supervisor.pseudo project.polygon_id %}'>2</a>
+                        </li>
+                        <li class="page-item active">
+                          <a class="page-link" href={% url 'add_polygones' supervisor.pseudo project.polygon_id %}>3</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">4</a>
+                        </li>
+                        
+                          <li class="page-item">
+                            <button class="page-link" type="submit" value="save" >
+                              <i class="fas fa-chevron-right"></i>
+                            </button>
+                            
+                          </li>
+                        
+                      </ul>
+                    </nav> 
+       
+                             
+
+
+                 <div class='col-6 rounded ' id="map" style="width: 890px;height: 565px; box-sizing:border-box; margin-top: -5px;  border-radius: 50px; margin-left:-30px; ">
+                            <div class="leaflet-control"></div>
+                            
+                        </div>
+                        <input type="text" id="points" name="points" style="margin-right: 375px;" /> 
+        
+
+                   </form>
+                      
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <script>
+       
+
+          var map = L.map('map').setView([37.225, 9.97], 12.5);
+          L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+              attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+          }).addTo(map);
+    
+    // FeatureGroup is to store editable layers
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+    
+    var drawControl = new L.Control.Draw({
+        draw: {
+            polygon: {
+                shapeOptions: {
+                    color: '#38f'
+                },
+            },
+            polyline: {
+                shapeOptions: {
+                    color: 'red'
+                },
+            },
+            rect: {
+                shapeOptions: {
+                    color: 'green'
+                },
+            },
+            circle: {
+                shapeOptions: {
+                    color: 'purple'
+                },
+            },
+        },
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
+    map.addControl(drawControl);
+    
+    map.on('draw:created', function (e) {
+            var type = e.layerType;
+            layer = e.layer;
+                console.log(layer.toGeoJSON());
+               
+                const   coordinates = layer.toGeoJSON();
+                {% comment %} console.log("coord : "+e.layer.toGeoJSON().geometry.coordinates); {% endcomment %}
+                console.log(type);
+
+                if (type === 'polygon'){
+                    drawnItems.addLayer(layer);
+                    console.log("coord : "+e.layer.toGeoJSON().geometry.coordinates);
+
+                myjson=drawnItems.toGeoJSON() ;
+            console.log('myjson',myjson);}
+
+            let coords = [];
+            myjson.features.forEach((coordonne) => {
+                coords = [...coords, ...coordonne.geometry.coordinates];
+            })
+                const multiPolygone = { 
+                    "type": "MultiPolygon",
+                    "coordinates": [
+                        [...coords]
+                    ]
+                }
+                console.log('multiPolygone',multiPolygone)
+            document.getElementById('points').value=JSON.stringify(multiPolygone); 
+
+           
+         });
+    
+    
+    
+      </script>  
+    
+   
+
+    </body>
+
+</html>
+{% endblock %} 

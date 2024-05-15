@@ -1,0 +1,259 @@
+{% extends 'index.html' %} 
+{% block content %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <body   class="bg-img">
+        <div class=" text-center" >
+            <div class="row" style="width:1420px; margin: 30px 30px;" >
+                <div class="col-3" >
+                      
+             
+                    
+                </div>
+                
+                <div class="col-3"  style="background-color: #f7f7f7;width: 1100px; height: 740px; border-radius: 5px; margin-left:-360px; margin-right:5px;">
+                    <form method="POST">
+                    {% csrf_token %} 
+
+                        <h5 style="margin-bottom:15px;margin-top:20px; margin-left:300px; text-align:center; font-weight: bold; color:rgb(102, 101, 101); font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;font-size: 20px;   text-transform: uppercase; letter-spacing: 2px;">
+                          <strong style="color: #3F6D22;">Details Of Node</strong> {{ nod.nom }}<strong style="color: #3F6D22;"> Of Project :</strong>  {{ project.nomp }}
+                        </h5>
+                        <div class="row">
+                            <div class="col" >
+                                <div class="card " style="background-color: #DEDBEE; height:360px; width:300px; margin-top:-10px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                                  <div class="card-body">
+                                    <h6 class="card-title node-info-title"><i class="fas fa-info-circle"></i>  Node Information</h6>
+                                    <hr>
+                                    <p class="card-text"><strong>Node Name:</strong> {{ nod.nom }}</p>
+                                    <p class="card-text"><strong>Reference:</strong> {{ nod.reference }}</p>
+                                    <p class="card-text"><strong>Distance:</strong> {{ ds.distance }}cm</p>
+                                    <p class="card-text"><strong>Position:</strong> {{ nod.longitude }},{{ nod.latitude }}</p>
+                                    <p class="card-text"><strong>Sensors:</strong> {{ nod.Sensors }}</p>
+                                    <p class="card-text"><strong>Duty Cycle:</strong> Every 1 Min</p>
+                                    <div id="rssi">
+                                      <p class="card-text"><strong>RSSI:</strong> {{ nod.RSSI }}</p>
+                                    </div>
+                                    <p class="card-text"><strong>Battery Level:</strong> {{ nod.Battery_value }}</p>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+
+                                                            
+                              
+                              
+                              <canvas id="myChart"></canvas>
+                               <canvas id="myhum"></canvas>
+                                                            
+ 
+                                                            
+                             
+                              
+                            </div>
+
+
+                            <div class="col" >
+                                <!-- <div class="card"  style="background-color: #DEDBEE; height:200px; width:300px; margin-top:-290px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                                  <div class="card-body">
+                                    <h6 class="card-title node-info-title"><i class="fa-solid fa-cloud"></i>  Weather Information</h6>
+                                    <hr>
+                                    <div >
+                                    <p class="card-text"><strong>Distance:</strong> {{ ds.distance }}cm</p>
+                                    <p class="card-text"><strong>Humidity:</strong> {{ ds.humidity }}%</p>
+                                    <p class="card-text"><strong>Wind Speed:</strong> {{ ds.wind }} km/h</p>
+                                    <p class="card-text"><strong>Rain Volume:</strong> {{ ds.rain }} mm</p>
+                                    </div>
+                                  </div>
+                                </div> -->
+
+                                <!-- <div class="card" style="background-color: #DEDBEE; margin:10px 0px; height:110px; width:300px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;">
+                                    <div class="card-body">
+                                      <h6 class="card-title node-info-title"> <i class="fa-sharp fa-solid fa-bell"></i>  Prediction</h6>
+                                      <hr>
+                                      <div id="fwi">
+                                        <p class="card-text"><strong>FWI:</strong> {{ nod.FWI }}</p>
+                                      </div>
+                                      <div id="status">
+                                        {% if nod.status == 'DOWN' %}
+                                          <p class="card-text"><strong>Status:</strong> <span style="color:green; font-weight:bold">{{ nod.status }}</span></p>
+                                        {% elif nod.status == 'MODERATE' %}
+                                          <p class="card-text"><strong>Status:</strong> <span style="color:blue; font-weight:bold">{{ nod.status }}</span></p>
+                                        {% elif nod.status == 'HIGH' %}
+                                          <p class="card-text"><strong>Status:</strong> <span style="color:yellow; font-weight:bold">{{ nod.status }}</span></p>
+                                        {% elif nod.status == 'VERY HIGH' %}
+                                          <p class="card-text"><strong>Status:</strong> <span style="color:orange; font-weight:bold">{{ nod.status }}</span></p>
+                                        {% elif nod.status == 'EXTREME' %}
+                                          <p class="card-text"><strong>Status:</strong> <span style="color:red; font-weight:bold">{{ nod.status }}</span></p>
+                                        {% elif nod.status == 'UNKNOWN' %}
+                                          <p class="card-text"><strong>Status:</strong> <span style="color:black; font-weight:bold">{{ nod.status }}</span></p>
+                                        {% endif %}
+                                      </div>
+                                    </div>
+                                  </div> -->
+                              </div>
+                        
+                              
+                              <!-- <div class='col-6 rounded ' id="map" style="width: 760px;height: 300px; box-sizing:border-box; margin-top: -230px;  border-radius: 50px; margin-left:320px; margin-right:8px; ">
+                                <div class="leaflet-control"></div>
+                            </div> -->
+
+                    </form>
+
+                </div>
+
+                <div class="col" >  
+                      <div class="sidebar-wrapper" style=" overflow-y: auto; width:290px; height: 740px;">
+                    
+                        <div class="sidebar" style="background-color: #f7f7f7; border-radius: 5px; padding: 20px; margin-bottom: 20px; height: 740px; width:280px;">
+                            <h5 class="sidebar-heading" style="font-size: 22px; font-weight: bold; margin-bottom: 20px; color:black; text-align:center;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;  text-transform: uppercase; letter-spacing: 2px;">Node List</h5>
+                
+                         
+                            {% for node in nodes %}
+                            <div class="node-card">
+                              {% if node != nod %}
+                              <h6>Node-{{ node.nom }}</h6>
+                              {% endif %}
+                          
+                              <hr style='border-color: #6B2737;'>
+                              <p><strong>Ref:</strong> {{ node.reference }}</p>
+                              <p class="project-id" style="font-size: 14px; color: #8c8c8c; margin-left:0px;">Node ID: {{ node.Idnode }}</p>
+                          
+                              <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                                <button class="locate-btn" onclick="location.href='{% url 'final3' project.supervisorp.pseudo project.polygon_id node.Idnode %}'">Locate</button>
+                                <button onclick="location.href='{% url 'final2' project.supervisorp.pseudo project.polygon_id node.Idnode %}'">Details</button>
+                              </div>
+                            </div>
+                          {% endfor %}
+                          
+                            
+                        
+                            
+                            
+                            
+                              
+                              
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+          
+            </div>
+
+
+        </div>
+        
+
+        
+        
+
+        <script>
+          var geojson_str = "{{ project.geomp.json|escapejs }}";
+          var geojson = JSON.parse(geojson_str);
+      
+          var map = L.map('map').setView([{{ project.geomp.centroid.y }}, {{ project.geomp.centroid.x }}], 11.5);
+          L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+              attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+          }).addTo(map);
+      
+          L.geoJSON(geojson).addTo(map);
+      
+          // Affichage des cages
+          {% for cage in cages %}
+              var cageCircle = L.circle([{{ cage.latitude_centre }}, {{ cage.longitude_centre }}], {
+                  radius: {{ cage.diametre }}/2,
+                  fillColor: 'red',
+                  fillOpacity: 0.5,
+                  color: 'red',
+                  weight: 1,
+              }).addTo(map);
+      
+              cageCircle.bindPopup("<b>Nom de la cage:</b> {{ cage.nom }} <br> <b>Description:</b> {{ cage.description }} <br> <b>Diamètre:</b> {{ cage.diametre }}");
+          {% endfor %}
+      
+          // Affichage des nœuds
+          {% for d in ldn %}
+              var coords = JSON.parse(geojson_str).coordinates;
+              var first_coords = coords[0][0];
+              var polygonOne = {
+                  "type": "Polygon",
+                  "coordinates": [
+                      coords[0][{{ d.node.node_range }}-1]
+                  ]
+              };
+              var polygonLayer = L.geoJSON(polygonOne, { style: { color: 'blue', fillOpacity: 0.03 } }).addTo(map);
+              polygonLayer.bindTooltip("Polygon {{ d.node.node_range }} Of Project: {{ d.node.polyg.nomp }}");
+          {% endfor %}
+      </script>
+      
+
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const distData = JSON.parse('{{ lDist|safe }}');
+    
+
+    const xValues = [];
+    const yValues = [];
+    t = 0;
+
+    distData.forEach(function(dist) {
+      xValues.push(t + 5);
+      yValues.push(dist);
+      t += 5;
+    });
+
+    const ctxDist = document.getElementById('myChart').getContext('2d');
+    new Chart(ctxDist, {
+      type: 'line',
+      data: {
+        labels: xValues,
+        datasets: [{
+          label: 'Temps',
+          data: yValues,
+          backgroundColor: 'rgba(178, 91, 197, 0.1)',
+          borderColor: '#776db4',
+          borderWidth: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            title: {
+              display: true,
+              text: 'Distance',
+              font: {
+                size: 30,
+                family: 'Arial',
+                weight: 'bold',
+                color: 'rgba(0, 0, 0, 1.0)'
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+  });
+</script>
+
+                
+
+     
+         
+ 
+    
+
+  
+    </body>
+
+</html>
+{% endblock %}
