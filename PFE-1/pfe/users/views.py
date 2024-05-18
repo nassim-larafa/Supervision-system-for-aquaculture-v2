@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect ,get_object_or_404
 from .forms import *
 from django.contrib.auth import authenticate, login
-from users.models import client
+from users.models import supervisor,client,myProject,parcelle,cage,node,Data
 from django.http import JsonResponse
 from django.contrib.gis.geos import GEOSGeometry
 import json  # Add this line to import the json module
@@ -43,7 +43,7 @@ def connectassupervisor(request):
                 login(request, data)
                 #### on va redirect dashboard #####
                 # return redirect('map/')
-            return redirect('display',pseudo)
+            return redirect('projectList',pseudo)
         # We pass the form to the template even if it is not valid
         return render(request, 'login.html', {'form': formulaire})
     # We pass the form to the template for GET requests
@@ -75,7 +75,6 @@ def compte(request, pk, variable=None, pseudo=None):
             return render(request, 'signup.html', {'form': formulaire})
         return render(request, 'signup.html', {'form': Form_client()})
        
-
 def add_project(request,pseudo):
     supervisors = supervisor.objects.get(pseudo=pseudo)
     projects = myProject.objects.filter(supervisorp=supervisors).order_by('-polygon_id')
@@ -176,7 +175,7 @@ def add_client(request,idd,pseud):
             return render(request, 'addclient.html', {'form': formulaire,'supervisor':superviseur,'projects':projects,'project':project})
         return render(request, 'addclient.html', {'form': Form_client(),'supervisor':superviseur,'projects':projects,'project':project})
 
-def display(request,pseudo):
+def projectList(request,pseudo):
     # projects = myProject.objects.all()
     # supervisors = supervisor.objects.get(pseudo=pseudo)
     
@@ -192,7 +191,7 @@ def display(request,pseudo):
     #     return redirect('project_1',pseudo)
         return redirect('add_project', pseudo=pseudo)
 
-    return render(request, 'display.html', {'projects':projects,'supervisor_obj':supervisor_obj})
+    return render(request, 'project-list.html', {'projects':projects,'supervisor_obj':supervisor_obj})
 
 def display_polygone(request,id,pseudo):
     supervisor_obj = supervisor.objects.get(pseudo=pseudo)
@@ -591,4 +590,195 @@ def modify_3(request, pseudo, id):
     # Return a simple response to indicate that the client has started
     #return HttpResponse('MQTT client started successfully.')
     #return render(request, 'all.html', {})
+
+
+
+
+
+#############################client#########################
+def interface_c(request, id,pseudo):
+    clientp = client.objects.get(pseudo=pseudo)
+    projects = myProject.objects.filter(clientp=clientp)
+    
+    project = myProject.objects.get(clientp=clientp)
+    proj = myProject.objects.get(polygon_id=id)
+    nodes = node.objects.filter(polyg=project).order_by('-Idnode')
+    
+    data_list = []
+    for n in nodes :
+        ds = Data.objects.filter(node=n).order_by('-IdData').first()
+        data_list.append(
+            ds,
+        )
+           
+    for i in range(len(data_list)):
+        ldn0 = data_list[i]
+        print(ldn0)
+    
+    
+    for proj_instance in projects:
+        print('namep',proj_instance.nomp)
+        
+    nodeq = node.objects.filter(polyg=proj_instance)
+    for node_instance in nodeq:
+        nom=node_instance.nom
+        print(nom)
+
+
+    nodes_data = []
+    for node_instance in nodeq:
+        datas = Data.objects.filter(node=node_instance).order_by('-IdData')
+        data = datas.first()
+        nodes_data.append({'node_instance': node_instance, 'data': data})
+        print(data)
+
+    context = {'ldn':data_list,'nodes_data': nodes_data,'nodee':nodeq,'clientp':clientp,'project': proj, 'pseudo': pseudo,'node_instance':node_instance}
+    return render(request, 'interface_c.html', context)
+
+def client_project(request, pseudo):
+    clientp = client.objects.get(pseudo=pseudo)
+    projects = myProject.objects.filter(clientp=clientp)
+    
+    project_instance = None  # Define a default value
+
+    
+    if request.method == 'POST':
+        proj = request.POST.get('proj')
+        project_instance = myProject.objects.get(polygon_id=proj)
+        return redirect('clientd', project_instance.polygon_id, clientp.pseudo)
+    
+    context = {'projects': projects, 'client': clientp, 'proj': project_instance}
+    return render(request, 'client_project.html', context)
+
+def clientd(request, id,pseudo):
+    clientp = client.objects.get(pseudo=pseudo)
+    proj = myProject.objects.get(polygon_id=id)
+    nodes = node.objects.filter(polyg=proj).order_by('-Idnode')
+    
+    data_list = []
+    for n in nodes :
+        dat = Data.objects.filter(node=n).order_by('-IdData').first()
+        data_list.append(
+            dat,
+        )
+    
+    context = {'client':clientp,'project':proj,'ldn':data_list}
+    return render(request, 'client.html', context)
+
+def clientn(request, id,pseudo):
+    clientp = client.objects.get(pseudo=pseudo)
+    proj = myProject.objects.get(polygon_id=id)
+    nodes = node.objects.filter(polyg=proj).order_by('-Idnode')
+    
+    data_list = []
+    for n in nodes :
+        dat = Data.objects.filter(node=n).order_by('-IdData').first()
+        data_list.append(
+            dat,
+        )
+
+    context = {'client':clientp,'project':proj,'nodes':nodes,'ldn':data_list}
+    return render(request, 'node-list.html', context)
+
+def locate(request, id,pseudo,idnode):
+    clientp = client.objects.get(pseudo=pseudo)
+    proj = myProject.objects.get(polygon_id=id)
+    nodes = node.objects.filter(polyg=proj).order_by('-Idnode')
+    nod = node.objects.get(Idnode=idnode) 
+    ds = Data.objects.filter(node=nod).order_by('-IdData').first()
+    nodeq = node.objects.filter(polyg=proj)
+    
+    data_list = []
+    for n in nodes :
+        dat = Data.objects.filter(node=n).order_by('-IdData').first()
+        data_list.append(dat)
+        
+    print(data_list)
+    
+    context = {'client':clientp,'project':proj,'nodes':nodes,'nod':nod,'ds':ds, 'ldn':data_list,'nodee':nodeq}
+    return render(request, 'locate.html', context)
+
+def details(request, id,pseudo,idnode):
+    clientp = client.objects.get(pseudo=pseudo)
+    proj = myProject.objects.get(polygon_id=id)
+    nodes = node.objects.filter(polyg=proj).order_by('-Idnode')
+    nod = node.objects.get(Idnode=idnode) 
+
+    nod = node.objects.get(Idnode=idnode) 
+    ds = Data.objects.filter(node=nod).order_by('-IdData').first()
+    # print('*****************',ds)
+    nodeq = node.objects.filter(polyg=proj)
+    
+    data_list = []
+    for n in nodes :
+        dat = Data.objects.filter(node=n).order_by('-IdData').first()
+        data_list.append(
+            dat,
+        )
+        
+    print(data_list)
+
+
+    ltemp =[]
+    dss = Data.objects.filter(node=nod).order_by('-IdData')
+    for d in dss :
+        
+        ltemp.append(
+            d.temperature,
+        )
+
+    lhum =[]
+
+    
+    context={'client':clientp,'project':proj, 'nodes':nodes,'nod':nod,'ds':ds, 'ltemp':ltemp, 'lhum':lhum, 'ldn':data_list,'nodee':nodeq}
+    return render(request, 'details.html', context)
+    
+def delete_project(request,pseudo,id):
+    supervisor_obj = supervisor.objects.get(pseudo=pseudo)
+    project = myProject.objects.filter(supervisorp=supervisor_obj)
+    project.delete()
+
+    return redirect('projectList',pseudo=supervisor_obj.pseudo)
+
+def update_color(request, id):
+    projects = myProject.objects.all()
+    my_project = myProject.objects.get(polygon_id=id) 
+    
+
+    nodes = node.objects.filter(polyg=my_project)
+        
+    
+    data = []
+    for n in nodes:
+        ds = Data.objects.filter(node=n).order_by('-IdData').first()
+        data.append({
+            'node': {
+                'name': n.nom,
+                'id': n.Idnode,
+                'status': result(n.Idnode),
+                'detection': n.detection,
+                'fwi': n.FWI,
+                'RSSI': n.RSSI,
+                'range': n.node_range,
+                'x': n.position.x,
+                'y': n.position.y,
+                'ref': n.reference,
+                'battery' : n.Battery_value,
+            },
+            'temperature': ds.temperature,
+            'humidity': ds.humidity,
+            'wind': ds.wind,
+            'rain': ds.rain,
+            'published_date': ds.published_date
+        })
+        ds.node.status =result(n.Idnode)
+        ds.node.Battery_value =n.Battery_value
+        ds.node.save()
+    # print('+++++++++++++++++++++++++++++++++++++++',data)
+    # print('---',len(data))
+    
+    
+
+    return JsonResponse(data, safe=False)
+
 

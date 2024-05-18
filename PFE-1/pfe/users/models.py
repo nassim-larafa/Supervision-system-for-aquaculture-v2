@@ -105,7 +105,7 @@ class node(models.Model):
     
 class Data(models.Model):
     IdData = models.AutoField(primary_key=True,default=None)
-   
+    temperature = models.FloatField(default=0,null=True) 
     distance = models.FloatField(default=0,null=True)
     published_date = models.DateTimeField(blank=True, null=True)
     node = models.ForeignKey(node, on_delete=models.CASCADE, null=True, related_name='datas')
